@@ -17,8 +17,19 @@ const layers = Object.freeze({ //layers holds each layer in the network and its 
     l2: layer2,
 });
 
+//feed functions from one to another, like a pipe, so output of first is input of second, etc.
+const pipe = function (fs) {
+    return (x) => fs.reduce(function (a, f) {
+        f(a) // a becomes f(a), which becomes f(f(a)), as a is accumulator
+    }, x)
+}
+
 const network1 = Object.values(layers); //array of layers, which are objects which hold w, b 
 
 //console.log(layers);
 console.log(layers.l1.W);
 console.log(matrices.dot(layers.l1.W,(creatematrix([[1.1], [1.2]]))));
+
+const layer_function_from_layer = (layer) => (a) => add(dot(layer.W, a), layer.B);
+const network_function = (layers) => pipe(...layers.map(layer_function_from_layer));
+const net = network_function(network1);

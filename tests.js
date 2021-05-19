@@ -26,7 +26,7 @@ export function feedforward(layers, i=1, newlayers = []){
         return newlayers
     }
     const newA = matrices.dot(layers[i].W, layers[i-1].A) + layers[i].B;
-    const newlayer = layers[i].map(({W, B}) => ({W, B, A:newA})).map(x[0] => max(x,0)); //create tree somehow &max this
+    const newlayer = layers[i].map(({W, B}) => ({W, B, A:newA})); //create tree somehow &max this
     return feedforward(layers, i+1, [...newlayers, newlayer])
 }
 
