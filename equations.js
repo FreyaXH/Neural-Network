@@ -19,7 +19,7 @@ const layers = Object.freeze({ //layers holds each layer in the network and its 
 //feed functions from one to another, like a pipe, so output of first is input of second, etc.
 const pipe = function (...fs) {
     return (x) => fs.reduce(function (a, f) {
-        f(a) // a becomes f(a), which becomes f(f(a)), as a is accumulator
+        return f(a) // a becomes f(a), which becomes f(f(a)), as a is accumulator
     }, x)
 }
 
@@ -35,6 +35,3 @@ const network_function = (layers) => pipe(...layers.map(layer_function_from_laye
 const net = network_function(network1);
 debugger
 console.log(net);
-
-
-//make sigma work using map func on map func
