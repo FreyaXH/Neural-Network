@@ -4,7 +4,7 @@ import funcs from "./matrices.js";
 const layer1 = Object.freeze({ // vectors must be entered as [[x,y]]
     W: [[1.2, 1.3], [0.9, 1.7]],
     B: [[1.1, 0.3]],
-});
+}); 
 
 const layer2 = Object.freeze({
     W: [[1.4], [0.7]],
@@ -25,13 +25,9 @@ const pipe = function (...fs) {
 
 const network1 = Object.values(layers); //array of layers, which are objects which hold w, b 
 
-//console.log(layers);
-console.log(layers.l1.W);
-console.log(funcs.matrix_multiply(layers.l1.W,([[1.1], [1.2]])));
-
 const sigma = (x) => Math.max(0, x);
 const layer_function_from_layer = (layer) => (a) => funcs.matrix_add(funcs.matrix_multiply(a, layer.W), layer.B).map(a => a.map(b => sigma(b))); //.map of sigma
 const network_function = (layers) => pipe(...layers.map(layer_function_from_layer));
 const net = network_function(network1);
-debugger
-console.log(net);
+
+debugger;
