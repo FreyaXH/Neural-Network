@@ -16,7 +16,6 @@ function transpose(arr, c=0, newarr=[]) //transposes a matrix and returns a new 
 
 function dot(arr, arr2, i=0, j = 0, temparr = [], finalarr = []) //dot product of 2 matrices
 {
-    //const newarr2 = transpose(arr2); //transpose array and then do dot product
     if(i >= rows(arr)){ // recursive iteration through each row of matrix2 until we finish
         return finalarr
     }
