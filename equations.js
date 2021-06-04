@@ -25,7 +25,7 @@ const pipe = function (...fs) {
 
 const network1 = Object.values(layers); //array of layers, which are objects which hold w, b 
 
-const sigma = (x) => Math.max(0, x);
+const sigma = (x) => funcs.node(Math.max, x, funcs.node(0));
 const layer_function_from_layer = (layer) => (a) => funcs.matrix_add(funcs.matrix_multiply(a, layer.W), layer.B).map(a => a.map(b => sigma(b))); //.map of sigma
 const network_function = (layers) => pipe(...layers.map(layer_function_from_layer));
 const net = network_function(network1);
