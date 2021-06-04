@@ -1,3 +1,42 @@
+function node(value, left=null, right=null){ //creates node for given tree
+    return {
+        "value":value,
+        "left":left,
+        "right":right,
+      }
+}
+
+function inorder(root){ //returns evaluation of tree in inorder traversal, no strings allowed
+    if(!isNaN(root.value)){ //if a number, return value
+    return root.value
+    } 
+    //if a function, return func(inorder(left), inorder(right))
+    //console.log(root.value)
+    return root.value(inorder(root.left), inorder(root.right))
+}
+
+function equation_from_tree(root){
+    //inorder traversal, add to equation contsantly, only way.
+    //go to Node
+    if(root){
+      if(!isNaN(root.value) || typeof root.value === "string"){//if number
+        return equation_from_tree(root.left) + String(root.value) + equation_from_tree(root.right)
+      }
+      //is operator
+      if(root.value == addnum){
+        return equation_from_tree(root.left) + "+" + equation_from_tree(root.right)
+      }
+      if(root.value == multiplynum){
+        return "(" + equation_from_tree(root.left) + ")" + "*" + equation_from_tree(root.right)
+      }
+      if(root.value == Math.max){
+        return "max(" + equation_from_tree(root.left) + "), 0)"
+      }
+    }
+    return ""
+}
+
+
 function rows(m){
     return m.length;
 }
@@ -5,6 +44,19 @@ function rows(m){
 function cols(m){
     return m[0].length;
 }
+
+function addnum(a,b) {
+    return a + b
+}
+
+function multiplynum(a,b) {
+    return a*b
+}
+
+const compile = function(a,b,index){
+      return node(addnum, a, b)
+}
+
 
 function transpose(arr, c=0, newarr=[]) //transposes a matrix and returns a new one
 {
@@ -16,13 +68,14 @@ function transpose(arr, c=0, newarr=[]) //transposes a matrix and returns a new 
 
 function dot(arr, arr2, i=0, j = 0, temparr = [], finalarr = []) //dot product of 2 matrices
 {
+    //const newarr2 = transpose(arr2); //transpose array and then do dot product
     if(i >= rows(arr)){ // recursive iteration through each row of matrix2 until we finish
         return finalarr
     }
     if(j >= cols(arr2)){
         return dot(arr, arr2, i+1, 0, [], [...finalarr, temparr])
-    }
-    return dot(arr, arr2, i, j+1, [...temparr, arr[i].map((num, k) => num * arr2[k][j]).reduce((a,b) => a+b, 0)], finalarr)
+    } //creates one element in final matrix: a tree of instructions for mat multiplication. use eval to eval.
+    return dot(arr, arr2, i, j+1, [...temparr, arr[i].map((num, k) => node(multiplynum, num, node(arr2[k][j]))).reduce(compile)], finalarr)
 }
 
 function expandrows(m, rows){
@@ -39,7 +92,8 @@ function expandcols(m, cols){
 function add(m1, m2){ //adds two matrices together
     //if second matrix is too small, expand it to make it fit.
     //similar to numpy "broadcasting".
-    //only works currently if the matrix m2 is smaller than m1 dimensionally. fix this later.
+    //only works currently if the matrix m2 is smaller than m1 dimensionally, not other way round. 
+    //fix this later.
 
     if(rows(m2) !== rows(m1)){ //if rows different, expand m2 rows if and only if it divides m1.
         if(rows(m1) % rows(m2) !== 0 ){
@@ -55,8 +109,8 @@ function add(m1, m2){ //adds two matrices together
         const newcols = cols(m1) / cols(m2);
         return add(m1, expandcols(m2, newcols));
     }
-    const newarr = m1.map((num, idx) => num.map((num2, idx2) => num2 + m2[idx][idx2]));
-    return (newarr); //add arrays and return new matrix.
+    const newarr = m1.map((num, idx) => num.map((num2, idx2) => node(addnum, num2, node(m2[idx][idx2]))));
+    return (newarr); //add arrays by using tree structure and return new matrix.
 }
 
 export default {
@@ -65,4 +119,7 @@ export default {
     "matrix_add": add,
     "rows": rows,
     "cols": cols,
+    "node": node,
+    "inorder": inorder,
+    "equation_from_tree": equation_from_tree,
 }
