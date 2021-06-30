@@ -1,4 +1,5 @@
 import funcs from "./matrices.js";
+
 //import * as matrices from "./tests.js";
 
 const layer1 = Object.freeze({ // vectors must be entered as [[x,y]]
@@ -29,5 +30,8 @@ const sigma = (x) => funcs.node(Math.max, x, funcs.node(0));
 const layer_function_from_layer = (layer) => (a) => funcs.matrix_add(funcs.matrix_multiply(a, layer.W), layer.B).map(a => a.map(b => sigma(b))); //.map of sigma
 const network_function = (layers) => pipe(...layers.map(layer_function_from_layer));
 const net = network_function(network1);
-
+var x, y
+const leaves = funcs.get_leaves(funcs.decision_tree(net([[funcs.node("x"),funcs.node("y")]])[0][0]))
 debugger;
+//we have leaves on list leaves. remove all constants by using eval, checking if not NaN, and removing if so.
+//then we need to solve equations as per deconstruct function in python.

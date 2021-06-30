@@ -1,0 +1,3 @@
+function deconstruct(p, q) {
+    
+}
