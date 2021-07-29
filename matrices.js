@@ -27,8 +27,8 @@ function equation_from_tree(root){ //gets string equation of a given tree
       if(root.value == multiplynum){
         return "(" + equation_from_tree(root.left) + ")" + "*" + equation_from_tree(root.right)
       }
-      if(root.value == Math.max){
-        return "max(" + equation_from_tree(root.left) + "), 0)"
+      if(root.value == Math.max){//removed bracket before comma
+        return "max(" + equation_from_tree(root.left) + ", 0)"
       }
     }
     return ""
@@ -76,6 +76,29 @@ function dot(arr, arr2, i=0, j = 0, temparr = [], finalarr = []) //dot product o
     return dot(arr, arr2, i, j+1, [...temparr, arr[i].map((num, k) => node(multiplynum, num, node(arr2[k][j]))).reduce(compile)], finalarr)
 }
 
+function dot_no_tree(arr, arr2, i=0, j = 0, temparr = [], finalarr = []) //dot product of 2 matrices
+{
+    if (i >= arr.length){ //no more rows, finish
+      return finalarr
+    }
+    if (j >= arr2[0].length){//no more cols, next row
+      return dot_no_tree(arr, arr2, i+1, 0, [], [...finalarr, temparr])
+    }
+    //otherwise add up sum(k=1, n, Aik*Bjk) (whole sum done in this line)
+    return dot_no_tree(arr, arr2, i, j+1, [...temparr, arr[i].map((num, k) => num * arr2[k][j]).reduce((a, b) => a+b, 0)], finalarr)
+  }
+
+function cross(a, b, i=0, j=0, temparr=[], finalarr=[]) //only functional to 2 3x1 vectors
+{
+  var x = 0
+  var y = 1
+  var z = 2
+  var cx = a[y] * b[z] - a[z]*b[y]
+  var cy = a[z] * b[x] - a[x] * b[z] 
+  var cz = a[x] * b[y] - a[y] * b[x]
+  return [cx, cy, cz] 
+}
+
 function expandrows(m, rows){
     // rows are repeated until the rows match the specified length 
     const newarr = Array(rows).fill(m).flat();
@@ -111,6 +134,52 @@ function add(m1, m2){ //adds two matrices together
     return (newarr); //add arrays by using tree structure and return new matrix.
 }
 
+function determinant(arr){ //determinant of any 2x2 matrix
+  return arr[0][0] * arr[1][1] - arr[0][1] * arr[1][0]
+}
+
+function inverse_matrix(arr, newarr=[[0,0,0],[0,0,0],[0,0,0]]){
+  //STEP 1: matrix of minors
+  //STEP 2: cofactors
+  //STEP 3: transpose
+  //STEP 4: calculate determinant
+  //STEP 5: divide by determinant of original
+  function minors(arr, minorarr= [[0,0,0], [0,0,0], [0,0,0]], i=0, j=0){
+    if(i >= rows(arr)){
+      return minorarr
+    }
+    if(j >= cols(arr)){
+      return minors(arr, minorarr, i+1, 0)
+    }
+    //temp remove relevant column then whole row, then use func to find determinant 
+    var temparray = arr.map(x => x.filter((y, idx) => idx !== j)).filter((z, idx) => idx !== i)
+    var minor = determinant(temparray)
+    minorarr[i][j] = minor
+    return minors(arr, minorarr, i, j+1)
+  }
+  newarr = minors(arr)
+
+  function cofactors(arr, i=0, j=0, index=0){
+    if(i >= rows(arr)){
+      return arr
+    }
+    if(j >= cols(arr)){
+      return cofactors(arr, i+1, 0, index)
+    }
+    arr[i][j] *= (-1)**index //every other value has its sign flipped
+    return cofactors(arr, i, j+1, index+1)
+  }
+  newarr = transpose(cofactors(newarr))
+  /////NOTE!!!! WE DO NOT CHECK FOR DETERMINANT BEING 0!!! 
+  var arr_determinant = (arr[0][0] * (arr[1][1] * arr[2][2] - arr[1][2] * arr[2][1])) 
+  - (arr[0][1] *(arr[1][0] * arr[2][2] - arr[1][2] * arr[2][0])) 
+  + (arr[0][2] *(arr[1][0] * arr[2][1] - arr[1][1] * arr[2][0]))  
+
+  newarr = newarr.map(x => x.map(y => y/arr_determinant))
+  return newarr
+}
+
+
 function get_leaves_setup(root) { //fix this in future, only done because i could not remember how to 
 // return all leaves in a tree functionally.
   var mylist = []
@@ -118,6 +187,7 @@ function get_leaves_setup(root) { //fix this in future, only done because i coul
   function get_leaves(root, leafnodes=[]){
     if(root){
       if(root.left==null && root.right==null){
+        //console.log(root.value)
         mylist = [...mylist, root.value]
       }
       get_leaves(root.left)
@@ -211,4 +281,10 @@ export default {
     "equation_from_tree": equation_from_tree,
     "decision_tree": split,
     "get_leaves": get_leaves_setup,
+    "addnum":addnum,
+    "multiplynum":multiplynum,
+    "cross_product":cross,
+    "inverse_matrix": inverse_matrix,
+    "matrix_multiply_standard": dot_no_tree,
+    "determinant": determinant,
 }
