@@ -1,1 +1,2 @@
-# Neural-Network
+# neural-network-height-maps
+The aim of this visualisation is to demystify the working of neural networks for students by giving insight into the precise correlation that the weights and biases of a set of neurons in a given layer of a Neural Network have on the characteristic features of the neuron(s) in the next layer by providing students a visual representation of the said neurons with the help of height maps.

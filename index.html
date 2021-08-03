@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="default.css">
+<head>
+    <title>Neural Network Height Map</title>
+</head>
+
+<body>
+    <main>
+        <section class="map-container">
+            <div class="map-flex">
+                <div class="map">
+                    <svg id="mapRoot" width="500" height="500">
+                        <path d = "M 0,0 200,0 200,200 0,200 0,0 44.7,89.4 244.7,89.4 200,0 244.7,89.4 244.7,289.4 200,200"></path>
+                    </svg>
+                    <button id="map-btn" onclick="generate3dPolygons()">Click Me</button>
+                </div>
+                <div class="sliders">
+                    <p class="clr-4">Layer 1:</p>
+                    <p class="clr-4">Neuron 1 (w1, w2, bias):</p>
+                <div>
+                    <input type="range" id="w111"
+                            min="0" max="100" step="1" oninput="assignW111()">
+                        <!-- <p id="p1-slider">Value: </p> -->
+                    </div>
+                    <div>
+                        <input type="range" id="w211"
+                                min="0" max="100" step="1" oninput="assignW211()">
+                    <div>
+                        <input type="range" id="bias11"
+                                min="-300" max="300" step="1" oninput="assignB11()">
+                         <!-- <p id="p2-slider">Value: </p> -->
+                    </div>
+                    <p class="clr-4">Neuron 2 (w1, w2, bias):</p>
+                    <div>
+                        <input type="range" id="w112"
+                            min="0" max="100" step="1" oninput="assignW112()">
+                    </div>
+                    <div>
+                        <input type="range" id="w212"
+                                min="0" max="100" step="1" oninput="assignW212()">
+                    <div>
+                        <input type="range" id="bias12"
+                                min="-300" max="300" step="1" oninput="assignB12()">
+                    </div>
+                    <p class="clr-1">Layer 2:</p>
+                    <p class="clr-1">Neuron 1 (w1, w2, bias):</p>
+                    <div>
+                        <input type="range" id="w121"
+                            min="0" max="100" step="1" oninput="assignW121()">
+                    <div>
+                        <input type="range" id="w221"
+                                min="0" max="100" step="1" oninput="assignW221()">
+                    <div>
+                        <input type="range" id="bias21"
+                                min="-300" max="300" step="1" oninput="assignB21()">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="structure-container">
+            <div class="nav">
+                <a href="#" class="clr-3">First Page • </a>
+                <a href="#" class="clr-1">Prev Page • </a>
+                <a href="#" class="clr-2">Next Page • </a>
+                <a href="#" class="clr-3">Last Page</a>
+            </div>
+            <div class="structure">
+                <svg width="500" height="250">
+                    <line x1="90" y1="60" x2="170" y2="60" stroke="rgb(144, 131, 237)" stroke-width="3"/>
+                    <line x1="90" y1="180" x2="170" y2="180" stroke="rgb(144, 131, 237)" stroke-width="3"/>
+                    <line x1="90" y1="60" x2="170" y2="180" stroke="rgb(144, 131, 237)" stroke-width="3"/>
+                    <line x1="90" y1="180" x2="170" y2="60" stroke="rgb(144, 131, 237)" stroke-width="3"/>
+                    <line x1="230" y1="60" x2="310" y2="120" stroke="orange" stroke-width="3"/>
+                    <line x1="230" y1="180" x2="310" y2="120" stroke="orange" stroke-width="3"/>
+                    <circle r="30" cx="60" cy="60" fill= "#000" stroke="rgb(144, 131, 237)" stroke-width="5"/>
+                    <circle r="30" cx="60" cy="180" fill= "#000" stroke="rgb(144, 131, 237)" stroke-width="5"/>
+                    <circle r="30" cx="200" cy="60" fill= "#000" stroke="orange" stroke-width="5"/>
+                    <circle r="30" cx="200" cy="180" fill= "#000" stroke="orange" stroke-width="5"/>
+                    <circle r="30" cx="340" cy="120" fill= "#000" stroke="#ed655f" stroke-width="5"/>
+                </svg>
+            </div>
+            <div class="text">
+                <p>
+                    <strong>Neural Network Height Maps</strong>
+                    <br>
+                    <br>
+                    The aim of this visualisation is to demystify the working of
+                    neural networks for students by giving insight into the 
+                    precise correlation that the weights and biases of a set of
+                    neurons in a given layer of a Neural Network have on the 
+                    characteristic features of the neuron(s) in the next layer 
+                    by providing students a visual representation of the said 
+                    neurons with the help of height maps.
+                </p>
+            </div>
+        </section>
+    </main>
+    <script src = "slider.js"></script>
+    <script src = "plot.js"></script>
+</body>
+</html>

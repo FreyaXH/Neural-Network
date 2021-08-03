@@ -1,0 +1,91 @@
+:root {
+    --c1: #ed655f;
+    --c2: rgb(144, 131, 237);
+    --c3: #00a9c4;
+}
+
+body {
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: flex-start;
+}
+
+a,
+p {
+    text-decoration: none;
+    color: white;
+    font: 19px 'Fira Sans', sans-serif;
+}
+
+input {
+    margin: .5 rem;
+}
+
+.map-container {
+    display: inline-block;
+}
+
+.map-flex {
+    display: flex;
+    /* outline: 3px blueviolet solid; */
+    width: 750px;
+}
+
+.map {
+    display: flex;
+    margin: 0;
+    /* outline: 3px red solid; */
+    width: 500px;
+}
+
+.sliders {
+    /* outline: 3px green solid; */
+    width: 250px;
+}
+
+.structure {
+    display: inline-block;
+    padding: 10px 0;
+    /* outline: 3px yellow solid; */
+    width: 400px;
+}
+
+.structure-container {
+    display: inline-block;
+    /* outline: 10px firebrick dotted; */
+    width: 550px;
+}
+
+.text {
+    /* outline: 3px violet solid; */
+    width: 550px;
+}
+
+.nav {
+    padding: 10px 5px;
+}
+
+.clr-1 {
+    color: var(--c1);
+}
+
+.clr-2 {
+    color: var(--c3);
+}
+
+.clr-3 {
+    color: var(--c2);
+}
+
+.clr-4 {
+    color: orange;
+}
+
+path {
+    fill: none; stroke: white; stroke-width: 1px;   
+}
+
+polygon {
+    fill: black;
+}
