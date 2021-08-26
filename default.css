@@ -1,11 +1,17 @@
 :root {
-    --c1: #ed655f;
-    --c2: rgb(144, 131, 237);
-    --c3: #00a9c4;
+    --c1: #afdb85;
+    --c2: #daab73;
+    --c3: #7aaed7;
+    --c4: #466589;
+    --c5: #fc75db;
 }
 
 body {
-    background-color: black;
+    background-attachment: fixed !important;
+    padding: 0;
+    margin: 0;
+    border: solid red 1px;
+    background-image: radial-gradient(circle farthest-corner at 50% 0%,#7aaed7, #466589);
     color: white;
     display: flex;
     align-items: flex-start;
@@ -15,7 +21,8 @@ a,
 p {
     text-decoration: none;
     color: white;
-    font: 19px 'Fira Sans', sans-serif;
+    font: 19px;
+    font-family: Helvetica, sans-serif;
 }
 
 input {
@@ -71,15 +78,15 @@ input {
 }
 
 .clr-2 {
-    color: var(--c3);
-}
-
-.clr-3 {
     color: var(--c2);
 }
 
+.clr-3 {
+    color: var(--c1);
+}
+
 .clr-4 {
-    color: orange;
+    color: var(--c5);
 }
 
 path {

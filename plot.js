@@ -6,10 +6,7 @@ b = 0.5 sin t
 function plotSVG(list_dstrings) {
     const svg = document.getElementById("mapRoot");
     const ns = "http://www.w3.org/2000/svg";
-    let polygon = document.createElementNS(ns, "polygon");
-    polygon.setAttribute("points", "0,0 500,0 500,500 0,500");
-    svg.appendChild(polygon);
-
+    svg.textContent = "";
     list_dstrings.forEach(function (dstring) {
         let path = document.createElementNS(ns, "path");
         path.setAttribute("d", dstring);
@@ -48,7 +45,7 @@ function generate3dPolygons() {
         [s * x + s, s * h(x + 1, z + 1), s * z + s],
         [s * x, s * h(x, z + 1), s * z + s]
     ];
-    const polygon = cell((x, z) => Math.sin(x / 5) * Math.cos(z / 5), 25);
+    const polygon = cell((x, z) => Math.sin(x / 2) * Math.cos(z / 2), 25);
     const sequence = (n) => Array.from({"length": n}, (ignore, k) => k);
     const list_of_polygon_3d = sequence(15).flatMap(
         (x) => sequence(15).map((z) => [x, z])
