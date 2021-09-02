@@ -1,0 +1,98 @@
+:root {
+    --c1: #afdb85;
+    --c2: #daab73;
+    --c3: #7aaed7;
+    --c4: #466589;
+    --c5: #fc75db;
+}
+
+body {
+    background-attachment: fixed !important;
+    padding: 0;
+    margin: 0;
+    border: solid red 1px;
+    background-image: radial-gradient(circle farthest-corner at 50% 0%,#7aaed7, #466589);
+    color: white;
+    display: flex;
+    align-items: flex-start;
+}
+
+a,
+p {
+    text-decoration: none;
+    color: white;
+    font: 19px;
+    font-family: Helvetica, sans-serif;
+}
+
+input {
+    margin: .5 rem;
+}
+
+.map-container {
+    display: inline-block;
+}
+
+.map-flex {
+    display: flex;
+    /* outline: 3px blueviolet solid; */
+    width: 750px;
+}
+
+.map {
+    display: flex;
+    margin: 0;
+    /* outline: 3px red solid; */
+    width: 500px;
+}
+
+.sliders {
+    /* outline: 3px green solid; */
+    width: 250px;
+}
+
+.structure {
+    display: inline-block;
+    padding: 10px 0;
+    /* outline: 3px yellow solid; */
+    width: 400px;
+}
+
+.structure-container {
+    display: inline-block;
+    /* outline: 10px firebrick dotted; */
+    width: 550px;
+}
+
+.text {
+    /* outline: 3px violet solid; */
+    width: 550px;
+}
+
+.nav {
+    padding: 10px 5px;
+}
+
+.clr-1 {
+    color: var(--c1);
+}
+
+.clr-2 {
+    color: var(--c2);
+}
+
+.clr-3 {
+    color: var(--c1);
+}
+
+.clr-4 {
+    color: var(--c5);
+}
+
+path {
+    fill: none; stroke: white; stroke-width: 1px;   
+}
+
+polygon {
+    fill: black;
+}
