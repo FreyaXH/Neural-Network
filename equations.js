@@ -26,14 +26,21 @@ const pipe = function (...fs) {
 
 const network1 = Object.values(layers); //array of layers, which are objects which hold w, b 
 
-const sigma = (x) => funcs.node(Math.max, x, funcs.node(0));
+//sigma to be changed: don't produce right node of 0!!!
+//should be const sigma = (x) => funcs.node(Math.max, x);
+//however this will ruin evaluate_tree, a debug function anyway.
+const sigma = (x) => funcs.node(Math.max, x, funcs.node(0)); 
 const layer_function_from_layer = (layer) => (a) => funcs.matrix_add(funcs.matrix_multiply(a, layer.W), layer.B).map(a => a.map(b => sigma(b))); //.map of sigma
 const network_function = (layers) => pipe(...layers.map(layer_function_from_layer));
 const net = network_function(network1);
 var x, y
 const leaves = funcs.get_leaves(funcs.decision_tree(net([[funcs.node("x"),funcs.node("y")]])[0][0]))
+const breadth = funcs.breadth_first(funcs.decision_tree(net([[funcs.node("x"),funcs.node("y")]])[0][0]))
+const firsttree = net([[funcs.node("x"),funcs.node("y")]])[0][0]
 export default{
     "leaves":leaves,
+    "breadth":breadth,
+    "firsttree":firsttree
 }
 //debugger;
 //we have leaves on list leaves. remove all constants by using eval, checking if not NaN, and removing if so.

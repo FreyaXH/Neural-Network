@@ -6,6 +6,26 @@ function node(value, left=null, right=null){ //creates node for given tree
       }
 }
 
+function boundarynode(ax=0, ay=0, b=0){
+  return{
+    "type":"boundary",
+    "ax":ax,
+    "ay":ay,
+    "b":b,
+  }
+}
+
+function planenode(ax=0, ay=0, b=0, boundaries=[]){
+  return{
+    "type":"plane",
+    "ax":ax,
+    "ay":ay,
+    "b":b,
+    "boundaries":boundaries
+  }
+}
+
+
 function evaluate_tree(root){ //returns evaluation of tree no strings allowed
     if(!isNaN(root.value)){ //if a number, return value
     return root.value
@@ -266,8 +286,24 @@ function split(root, i=0, newtree=node(root), layernodes=[newtree]){
     return bfs(layernodes,i+1, out)
   }
 
-
-
+//bfs
+//for each node in children list:
+//add all children to newchildren
+//if child is null do not add
+//once gone through all nodes in children add newchildren to final_list
+//make children = newchildren, start at beginnning of children again
+//if children is empty, return final_list
+//basically a more drawn out version of the bfs function above 
+function breadth_first(root, i=0, children=[root], newchildren=[], final_list=[]){
+  if(children.length == 0){
+    return final_list.filter(a => a.length!==0)
+  }
+  if(i >= children.length){
+    return breadth_first(root, 0, newchildren, [], [...final_list, newchildren.map(x => x.value)])
+  }
+  return breadth_first(root, i+1, children, 
+    newchildren.concat([children[i].left, children[i].right].filter((a)=> a !== null)), final_list)
+}
 
 
 export default {
@@ -287,4 +323,7 @@ export default {
     "inverse_matrix": inverse_matrix,
     "matrix_multiply_standard": dot_no_tree,
     "determinant": determinant,
+    "breadth_first": breadth_first,
+    "planenode":planenode,
+    "boundarynode":boundarynode,
 }

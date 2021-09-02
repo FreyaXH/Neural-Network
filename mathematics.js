@@ -1,5 +1,7 @@
 import funcs from "./matrices.js";
-import leaves from "./equations.js"
+import leaves from "./equations.js";
+import breadth from "./equations.js";
+import firsttree from "./equations.js";
 
 function reduce_tree(root){
     //creating table but do it better
@@ -132,9 +134,10 @@ function deconstruct(p, q) {
     var parametric_x = [1/np3[0], result_matrix[0][0]/np3[0]] //[x coefficient, constant]
     var parametric_y = [1/np3[1], result_matrix[1][0]/np3[1]] //[y coefficient, constant]
     var results = rearrange(parametric_x, parametric_y)
-    var cartesian = results[0]
-    var streq = results[1]
-    return results //NOTE!!! IN future return only cartesian. streq for testing purposes. 
+    //return results //NOTE!!! IN future return only cartesian. streq for testing purposes. 
+    //change:: return xyz points and construct lines as per freddies example.
+    return result_matrix
+    
     //first: simplify tree
     //done: 
     //create np1, vector of [x coefficient, y coefficient, -1] of p
@@ -172,10 +175,113 @@ function lines(leaves, lineslist=[], i=0){ //returns lines of polygon
     return lines(leaves, lineslist, i+1)
 }
 
+function construct_polygon(root){
+    if(!root){//postorder traversal
+        return
+    }
+    construct_polygon(root.left)
+    construct_polygon(root.right)
+
+    if(!isNaN(root.value)){ //if number, convert to plane with b=
+        root.value = [funcs.planenode(0,0, root.value)]
+    }
+    if(root.value == "x" || root.value == "y"){//if symbol, convert accordingly
+        root.value = [funcs.planenode(+(root.value=="x"), +(root.value=="y"))] //make ax=1 or ay=1 depending on x or y being val
+    }
+
+    if(root.value == funcs.multiplynum){//if scalar, alter plane eq and leave boundaries
+        //first determine which node is the plane and which is the constant
+        //checks for x and y values of 0 - if so, must be constant
+        //one is a list of planes, another is a list of one item - constant in plane form.
+        if(root.left.value[0].ax==0 && root.left.value[0].ay==0){
+            var c = root.left.value[0].b
+            var planes = root.right.value
+            //c is the actual constant
+            //planes is a list of planes
+        }
+        else{
+            var c = root.right.value[0].b
+            var planes = root.left.value
+        }
+        //for each plane in planes, multiply by constant
+        function mult_planes(i=0, newplanes=[]){
+            if(i >= planes.length){
+                return newplanes
+            } 
+            var currentplane = planes[i]
+            return mult_planes(i+1, [...newplanes, funcs.planenode(
+                currentplane.ax*c, currentplane.ay*c, currentplane.b*c, currentplane.boundaries)])
+        }
+        root.value = mult_planes() 
+    }
+
+    if(root.value == funcs.addnum){
+        var plane_set_1 = root.left.value //two lists of planes
+        var plane_set_2 = root.right.value 
+        
+        function add_planes(i=0, j=0, newplanes=[]){
+            if(i >= plane_set_1.length){
+                return newplanes
+            }
+
+            if(j >= plane_set_2.length){
+                return add_planes(i+1, 0, newplanes)
+            }
+
+            return add_planes(i, j+1, [...newplanes, funcs.planenode(plane_set_1[i].ax+plane_set_2[j].ax, 
+                plane_set_1[i].ay+plane_set_2[j].ay, plane_set_1[i].b+plane_set_2[j].b, 
+                [...plane_set_1[i].boundaries,...plane_set_2[j].boundaries])])
+        }
+        root.value = add_planes()
+    }
+    if(root.value == Math.max){
+        //should be right node, but determine which node is 0
+        if(root.left.value[0].ax==0 && root.left.value[0].ay==0){
+            var planes = root.right.value
+        }
+        else{
+            var planes = root.left.value
+        }
+        //create two planes here
+        function max_convert(i=0, newplanes=[]){
+            if(i >= planes.length){
+                return newplanes
+            }
+            var currentplane = planes[i]
+            return max_convert(i+1, [...newplanes, 
+                funcs.planenode(
+                    currentplane.ax, currentplane.ay, currentplane.b, 
+                    [funcs.boundarynode(currentplane.ax, currentplane.ay, currentplane.b), 
+                        ...currentplane.boundaries]
+                ),
+                funcs.planenode(
+                    0, 0, 0, 
+                    [funcs.boundarynode(-currentplane.ax, -currentplane.ay, -currentplane.b),
+                        ...currentplane.boundaries]
+                ) 
+            ])
+        }
+        root.value = max_convert()
+    }
+    //construct polygon with this
+    
+}
+
 const newleaves = leaves["leaves"];
+const newbreadth = breadth["breadth"]
+const oldtree = firsttree["firsttree"]
 const final_lines = lines(newleaves)
-console.log(final_lines)
+//console.log(final_lines)
 //const equation = simplify(newleaves[0])
 //console.log(equation)
+//console.log(funcs.equation_from_tree(newbreadth[0][0]))
+//console.log(reduce_tree(newbreadth[0][0]))
 
+
+var test = funcs.node(funcs.addnum, funcs.node(2), funcs.node(3))
+//construct_polygon(test)
+
+construct_polygon(oldtree)
+//oldtree holds final result
+console.log(oldtree.value)
 debugger;
