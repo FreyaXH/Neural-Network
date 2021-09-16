@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="default.css">
 <head>
     <title>Neural Network Height Map</title>
+    <script src = "main.js" type="module"></script>
+    <link rel="stylesheet" href="default.css">
 </head>
 
 <body>
@@ -18,42 +19,33 @@
                 <div class="sliders">
                     <p class="clr-4">Layer 1:</p>
                     <p class="clr-4">Neuron 1 (w1, w2, bias):</p>
-                <div>
-                    <input type="range" id="w111"
-                            min="0" max="100" step="1" oninput="generate3dPolygons()">
-                        <!-- <p id="p1-slider">Value: </p> -->
+                    <div>
+                        <input type="range" id="w111" min="0" max="100" step="1">
+                        <p id="p1-slider">Value: </p> 
                     </div>
                     <div>
-                        <input type="range" id="w211"
-                                min="0" max="100" step="1" oninput="assignW211()">
+                        <input type="range" id="w211" min="0" max="100" step="1">
                     <div>
-                        <input type="range" id="bias11"
-                                min="-300" max="300" step="1" oninput="assignB11()">
-                         <!-- <p id="p2-slider">Value: </p> -->
+                        <input type="range" id="bias11" min="-300" max="300" step="1">
+                        <p id="p2-slider">Value: </p>
                     </div>
                     <p class="clr-4">Neuron 2 (w1, w2, bias):</p>
                     <div>
-                        <input type="range" id="w112"
-                            min="0" max="100" step="1" oninput="assignW112()">
+                        <input type="range" id="w112" min="0" max="100" step="1">
                     </div>
                     <div>
-                        <input type="range" id="w212"
-                                min="0" max="100" step="1" oninput="assignW212()">
+                        <input type="range" id="w212" min="0" max="100" step="1">
                     <div>
-                        <input type="range" id="bias12"
-                                min="-300" max="300" step="1" oninput="assignB12()">
+                        <input type="range" id="bias12" min="-300" max="300" step="1">
                     </div>
                     <p class="clr-1">Layer 2:</p>
                     <p class="clr-1">Neuron 1 (w1, w2, bias):</p>
                     <div>
-                        <input type="range" id="w121"
-                            min="0" max="100" step="1" oninput="assignW121()">
+                        <input type="range" id="w121" min="0" max="100" step="1">
                     <div>
-                        <input type="range" id="w221"
-                                min="0" max="100" step="1" oninput="assignW221()">
+                        <input type="range" id="w221" min="0" max="100" step="1">
                     <div>
-                        <input type="range" id="bias21"
-                                min="-300" max="300" step="1" oninput="assignB21()">
+                        <input type="range" id="bias21" min="-300" max="300" step="1">
                     </div>
                 </div>
             </div>
@@ -97,7 +89,5 @@
             </div>
         </section>
     </main>
-    <script src = "slider.js"></script>
-    <script src = "plot.js"></script>
 </body>
 </html>
