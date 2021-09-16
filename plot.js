@@ -34,8 +34,6 @@ function project3d(list_of_polygon_3d) {
     );
     plotSVG(list_dstrings);
 
-    console.log(list_of_polygon_3d);
-    console.log(list_of_polygon_2d);
     console.log(list_dstrings);
 }
 
