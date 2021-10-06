@@ -2,15 +2,19 @@
 a = 0.5 cos t
 b = 0.5 sin t
 (x', y') = (x + az, y + bz) */
+import Shade from "./shade.js";
 const Plot = Object.create(null);
 
-function plotSVG(list_dstrings) {
+function plotSVG(list_dstrings_colours) {
     const svg = document.getElementById("mapRoot");
     const ns = "http://www.w3.org/2000/svg";
     svg.textContent = "";
-    list_dstrings.forEach(function (dstring) {
+    list_dstrings_colours.forEach(function (dstring_colour) {
         let path = document.createElementNS(ns, "path");
-        path.setAttribute("d", dstring);
+        let c = dstring_colour[1];
+        path.setAttribute("d", dstring_colour[0]);
+        path.style.fill = `rgb(${253 * c}, ${106 * c},  ${2 * c})`;
+        console.log(`rgb(${253 * c}, ${106 * c},  ${2 * c})`);
         svg.appendChild(path);
     });
 }
@@ -21,20 +25,18 @@ const parallel_projection = (vertex) => [
     vertex[0] + a * vertex[2],
     vertex[1] + b * vertex[2]
 ];
+const poly_to_dstring = (poly2d) => "M " + poly2d.map(
+    (vertex2d) => `${vertex2d[0]},${vertex2d[1]}`
+).join(" ") + " Z";
 
 function project3d(list_of_polygon_3d) {
-    let list_of_polygon_2d = list_of_polygon_3d.map(
-        (poly) => poly.map(parallel_projection)
-    );
+    let list_dstrings_colours = list_of_polygon_3d.map((poly3d) => [
+        poly_to_dstring(poly3d.map(parallel_projection)),
+        Shade.poly_to_colour(poly3d)
+    ]);
+    plotSVG(list_dstrings_colours);
 
-    let list_dstrings = list_of_polygon_2d.map(
-        (poly2d) => "M " + poly2d.map(
-            (vertex2d) => `${vertex2d[0]},${vertex2d[1]}`
-        ).join(" ") + " Z"
-    );
-    plotSVG(list_dstrings);
-
-    console.log(list_dstrings);
+    console.log(list_dstrings_colours);
 }
 
 Plot.generate3dPolygons = function (w1) {

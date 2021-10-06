@@ -1,4 +1,4 @@
-import plot from "./plot.js";
+import Plot from "./plot.js";
 
 const el = (id) => document.getElementById(id);
 let layerArr;
@@ -35,22 +35,22 @@ function layerReturn() {
 }
 
 // LAYER 1 NEURON 1
-let p1El = el("p1-slider");
+//let p1El = el("p1-slider");
 el("w111").oninput = function () {
     neuron11.w1 = el("w111").value / 100;
-    plot.generate3dPolygons(neuron11.w1);
-    p1El.textContent = `Value: ${neuron11.w1}`;
+    Plot.generate3dPolygons(neuron11.w1);
+    //p1El.textContent = `Value: ${neuron11.w1}`;
 };
 
 el("w211").oninput = function () {
     neuron11.w2 = el("w211").value / 100;
     layerReturn();
 };
-let p2El = el("p2-slider");
+//let p2El = el("p2-slider");
 el("bias11").oninput = function () {
     neuron11.bias = el("bias11").value / 100;
-    plot.generate3dPolygons(neuron11.bias);
-    p2El.textContent = `Value: ${neuron11.bias}`;
+    Plot.generate3dPolygons(neuron11.bias);
+    //p2El.textContent = `Value: ${neuron11.bias}`;
 };
 
 // LAYER 1 NEURON 2

@@ -12,7 +12,7 @@ body {
     margin: 0;
     background-image: radial-gradient(circle farthest-corner at 50% 0%,#7aaed7, #466589);
     color: white;
-     text-shadow: var(--c4) 0px 2px, var(--c4) 0px -2px, var(--c4) 2px 0px, var(--c4) -2px 0px, var(--c4) 1.414px 1.414px, var(--c4) 1.414px -1.414px, var(--c4) -1.414px -1.414px, var(--c4) -1.414px 1.414px;
+    text-shadow: var(--c4) 0px 2px, var(--c4) 0px -2px, var(--c4) 2px 0px, var(--c4) -2px 0px, var(--c4) 1.414px 1.414px, var(--c4) 1.414px -1.414px, var(--c4) -1.414px -1.414px, var(--c4) -1.414px 1.414px;
     display: flex;
     align-items: flex-start;
 }
@@ -87,9 +87,5 @@ input {
 }
 
 path {
-    fill: orange; stroke: white; stroke-width: .25px;   
-}
-
-polygon {
-    fill: black;
-}
+    stroke: white; stroke-width: .25px;
+} 
