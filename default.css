@@ -85,7 +85,3 @@ input {
     color: var(--c5);
     -webkit-text-stroke: black 0.01em;
 }
-
-path {
-    stroke: white; stroke-width: .25px;
-} 

@@ -9,12 +9,16 @@ function plotSVG(list_dstrings_colours) {
     const svg = document.getElementById("mapRoot");
     const ns = "http://www.w3.org/2000/svg";
     svg.textContent = "";
-    list_dstrings_colours.forEach(function (dstring_colour) {
+    list_dstrings_colours.forEach(function (dstring) {
         let path = document.createElementNS(ns, "path");
-        let c = dstring_colour[1];
-        path.setAttribute("d", dstring_colour[0]);
-        path.style.fill = `rgb(${253 * c}, ${106 * c},  ${2 * c})`;
-        console.log(`rgb(${253 * c}, ${106 * c},  ${2 * c})`);
+        let lv = dstring[1];
+        let colour = [254, 157, 61];
+        //Splitting up Ambient and Diffused Lights
+        let split_ad = (c) => c * 0.1 + c * 0.9 * lv;
+        let split_c = colour.map(split_ad);
+        path.setAttribute("d", dstring[0]);
+        path.style.fill = `rgb(${split_c[0]}, ${split_c[1]},  ${split_c[2]})`;
+        console.log(`rgb(${split_c[0]}, ${split_c[1]},  ${split_c[2]})`);
         svg.appendChild(path);
     });
 }

@@ -44,8 +44,9 @@ function generateNormal(polygon_3d) {
     );
 }
 //Offset vector [2,3,5]
+// ([0.4, -1, 0.5])
 
-const light_vector = normalise([2, 0, 1]);
+const light_vector = normalise([0.4, -1, 0.5]);
 //d^2.2
 Shade.poly_to_colour = function (polygon_3d) {
     return Math.pow(
@@ -53,7 +54,7 @@ Shade.poly_to_colour = function (polygon_3d) {
             light_vector,
             generateNormal(polygon_3d)
         ))),
-        (1 / 2.2)
+        (1)
     );
 };
 
