@@ -20,7 +20,7 @@ const layers = Object.freeze({ //layers holds each layer in the network and its 
 //feed functions from one to another, like a pipe, so output of first is input of second, etc.
 const pipe = function (...fs) {
     return (x) => fs.reduce(function (a, f) {
-        return f(a) // a becomes f(a), which becomes f(f(a)), as a is accumulator
+        return f(a) // a becomes f(a), which becomes f(f(a)), as a is accumulator!
     }, x)
 }
 
