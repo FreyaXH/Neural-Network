@@ -11,11 +11,20 @@ function plotSVG(list_dstrings_colours) {
     svg.textContent = "";
     list_dstrings_colours.forEach(function (dstring) {
         let path = document.createElementNS(ns, "path");
-        let lv = dstring[1];
+        let ldotn = dstring[1];
         let colour = [254, 157, 61];
+        let ks_colour = [255, 255, 255];
+        let split_amb_diff = (c) => c * 0.1 + c * 0.9 * ldotn;
+        console.log(split_amb_diff);
+        let diff = colour.map(split_amb_diff);
+        //Spectral
+        let spec = ks_colour.map(
+            (k) => 0.9 * k * dstring[2]
+        );
+        //console.log(dstring[2]);
+        //console.log(spec);
         //Splitting up Ambient and Diffused Lights
-        let split_ad = (c) => c * 0.1 + c * 0.9 * lv;
-        let split_c = colour.map(split_ad);
+        let split_c = Shade.addVector(diff, spec);
         path.setAttribute("d", dstring[0]);
         path.style.fill = `rgb(${split_c[0]}, ${split_c[1]},  ${split_c[2]})`;
         console.log(`rgb(${split_c[0]}, ${split_c[1]},  ${split_c[2]})`);
@@ -33,10 +42,12 @@ const poly_to_dstring = (poly2d) => "M " + poly2d.map(
     (vertex2d) => `${vertex2d[0]},${vertex2d[1]}`
 ).join(" ") + " Z";
 
+//dstring, poly colour-> krgb + kspectral
 function project3d(list_of_polygon_3d) {
     let list_dstrings_colours = list_of_polygon_3d.map((poly3d) => [
         poly_to_dstring(poly3d.map(parallel_projection)),
-        Shade.poly_to_colour(poly3d)
+        Shade.poly_to_colour(poly3d),
+        Shade.spectral(poly3d)
     ]);
     plotSVG(list_dstrings_colours);
 
@@ -56,6 +67,7 @@ Plot.generate3dPolygons = function (w1) {
         (x) => sequence(15).map((z) => [x, z])
     ).map((xz) => polygon(xz[0], xz[1]));
 
+    console.log(list_of_polygon_3d);
     project3d(list_of_polygon_3d);
 };
 
