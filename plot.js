@@ -1,7 +1,7 @@
-/* parallel projection -> Cabinet projection
-a = 0.5 cos t
-b = 0.5 sin t
-(x', y') = (x + az, y + bz) */
+/*  a = 0.5 cos t
+    b = 0.5 sin t
+    (x', y') = (x + az, y + bz) */
+
 import Shade from "./shade.js";
 const Plot = Object.create(null);
 
@@ -15,19 +15,15 @@ function plotSVG(list_dstrings_colours) {
         let colour = [254, 157, 61];
         let ks_colour = [255, 255, 255];
         let split_amb_diff = (c) => c * 0.1 + c * 0.9 * ldotn;
-        console.log(split_amb_diff);
         let diff = colour.map(split_amb_diff);
         //Spectral
         let spec = ks_colour.map(
             (k) => 0.9 * k * dstring[2]
         );
-        //console.log(dstring[2]);
-        //console.log(spec);
         //Splitting up Ambient and Diffused Lights
         let split_c = Shade.addVector(diff, spec);
         path.setAttribute("d", dstring[0]);
         path.style.fill = `rgb(${split_c[0]}, ${split_c[1]},  ${split_c[2]})`;
-        console.log(`rgb(${split_c[0]}, ${split_c[1]},  ${split_c[2]})`);
         svg.appendChild(path);
     });
 }
@@ -35,14 +31,14 @@ function plotSVG(list_dstrings_colours) {
 const a = 0.22388;
 const b = 0.44708;
 const parallel_projection = (vertex) => [
-    vertex[0] + a * vertex[2],
-    vertex[1] + b * vertex[2]
+    vertex[0] + a * vertex[2] + 10,
+    vertex[1] + b * vertex[2] + 50
 ];
 const poly_to_dstring = (poly2d) => "M " + poly2d.map(
     (vertex2d) => `${vertex2d[0]},${vertex2d[1]}`
 ).join(" ") + " Z";
 
-//dstring, poly colour-> krgb + kspectral
+//dstring, poly colour -> krgb + kspectral
 function project3d(list_of_polygon_3d) {
     let list_dstrings_colours = list_of_polygon_3d.map((poly3d) => [
         poly_to_dstring(poly3d.map(parallel_projection)),
@@ -50,8 +46,6 @@ function project3d(list_of_polygon_3d) {
         Shade.spectral(poly3d)
     ]);
     plotSVG(list_dstrings_colours);
-
-    console.log(list_dstrings_colours);
 }
 
 Plot.generate3dPolygons = function (w1) {
@@ -66,8 +60,6 @@ Plot.generate3dPolygons = function (w1) {
     const list_of_polygon_3d = sequence(15).flatMap(
         (x) => sequence(15).map((z) => [x, z])
     ).map((xz) => polygon(xz[0], xz[1]));
-
-    console.log(list_of_polygon_3d);
     project3d(list_of_polygon_3d);
 };
 

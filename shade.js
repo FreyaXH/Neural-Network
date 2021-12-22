@@ -69,13 +69,7 @@ function generateNormal(polygon_3d) {
     );
 }
 
-//generateNormal([[[1,2,3],[2,3,4],[1,2,1],[1,0,1],[1,1,1]], [[1,2,3],[2,3,4],
-//    [1,2,1],[1,0,1],[1,1,1], [0,0,0]], [[1,2,3],[2,3,4],[1,2,1],[1,0,1]]]);
-//Offset vector [2,3,5]
-// ([0.4, -1, 0.5])
-
 const light_vector = normalise([0.4, -1, 0.5]);
-//d^2.2
 Shade.poly_to_colour = function (polygon_3d) {
     return Math.pow(
         (Math.max(0, dotProduct(
@@ -87,16 +81,13 @@ Shade.poly_to_colour = function (polygon_3d) {
 };
 
 //Use a b from plot
-
 const a = 0.22388;
 const b = 0.44708;
 const vcam = negVector(normalise([a, b, -1]));
 const alpha = 5;
 
-//Output from spectral -> NaN
 Shade.spectral = function (polygon_3d) {
     let normal = generateNormal(polygon_3d);
-    //dot product of 2d and 3d array
     let ldotn = dotProduct(normal, light_vector);
     let normFactor = scalarMult(normal, 2 * ldotn);
     let rm = subVector(normFactor, light_vector);
